@@ -12,4 +12,5 @@ public interface UserService {
     Optional<AppUser> getUserByEmail(String email);
     List<AppUser> GetAllUsers();
 
+    void saveUserVerificationToken(AppUser user, String verificationToken);
 }
