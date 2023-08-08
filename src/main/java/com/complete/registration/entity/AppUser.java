@@ -16,7 +16,7 @@ import java.util.Collections;
 @NoArgsConstructor
 @Data
 public class AppUser implements UserDetails {
-    public AppUser(String firstName, String lastName, String email, String password, UserRole userRole, Boolean isLocked, Boolean isEnabled) {
+    public AppUser(String firstName, String lastName, String email, String password, String userRole, Boolean isLocked, Boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -33,14 +33,15 @@ public class AppUser implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+//    @Enumerated(EnumType.STRING)
+//    private UserRole userRole;
+    private String userRole;
     private Boolean isLocked;
     private Boolean isEnabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole);
         return Collections.singletonList(authority);
     }
 

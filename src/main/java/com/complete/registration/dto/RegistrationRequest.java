@@ -1,7 +1,6 @@
 package com.complete.registration.dto;
 
-import com.complete.registration.entity.UserRole;
-import lombok.Data;
+
 
 
 public record RegistrationRequest(
@@ -9,5 +8,5 @@ public record RegistrationRequest(
         String lastName,
         String email,
         String password,
-        UserRole role) {
+        String role) {
 }

@@ -2,8 +2,10 @@ package com.complete.registration.service.impl;
 
 import com.complete.registration.dto.RegistrationRequest;
 import com.complete.registration.entity.AppUser;
-import com.complete.registration.entity.UserRole;
+import com.complete.registration.entity.RegistrationToken;
+
 import com.complete.registration.exception.UserAlreadyExistsException;
+import com.complete.registration.repository.TokenRepository;
 import com.complete.registration.repository.UserRepository;
 import com.complete.registration.service.UserService;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final static String USER_NOT_FOUND_MSG = "User with email %s not found";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(()->
@@ -56,6 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void saveUserVerificationToken(AppUser user, String verificationToken) {
-
+        var registrationToken = new RegistrationToken(user, verificationToken);
+        tokenRepository.save(registrationToken);
     }
 }

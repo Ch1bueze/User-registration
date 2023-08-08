@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +23,13 @@ public class UserController {
     private final UserService userService;
     private final ApplicationEventPublisher publisher;
     @PostMapping
-    public ResponseEntity<AppUser> register(RegistrationRequest registrationRequest, HttpServletRequest request){
+    public ResponseEntity<String> register(@RequestBody RegistrationRequest registrationRequest, HttpServletRequest request){
         AppUser user = userService.register(registrationRequest);
         publisher.publishEvent(new RegistrationEvent(user, applicationUrl(request)));
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>("Registration Successful, Check email to confirm", HttpStatus.CREATED);
     }
 
     public String applicationUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        return "https://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }
